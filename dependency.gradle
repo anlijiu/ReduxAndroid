@@ -1,0 +1,188 @@
+def daggerVersion = "2.11"
+def butterknifeVersion = "8.4.0"
+def retrofitVersion = "2.3.0"
+def supportVersion = "25.0.0"
+def rxjavaVersion = "2.1.0"
+def rxAndroidVersion = "2.0.1"
+def rxPreferenceVersion = "2.0.0-RC3"
+def frescoVersion = "1.5.0"
+def okhttpVersion = "3.8.0"
+def diskLruCacheVersion = "2.0.2"
+def threetenabpVersion = "1.0.4"
+def timberVersion = "4.4.0"
+def gsonVersion = "2.8.0"
+def autoValueVersion = "1.4.1"
+def autoValueGsonVersion = "0.5.0"
+def autoValueParcelVersion = "0.2.5"
+def flexboxVersion = "0.3.0"
+def moshiVersion = "1.3.1"
+def telescopeVersion = "2.1.0"
+def chartVersion = "v3.0.2"
+def permissionsdispatcherVersion = "2.4.0"
+def reductorVersion = "0.14.0"
+
+def activityrouterVersion = "1.2.2"
+def activityrouterCompilerVersion = "1.1.7"
+
+def onActivityResultVersion = '0.6.0'
+def icepickVersion = "3.2.0"
+
+def leakCanaryVersion = "1.5"
+def blockCanaryVersion = '1.1.4'
+def fingerPrintLibVersion = '1.1.2'
+
+def versionMajor = 1
+def versionMinor = 0
+def versionPatch = 0
+def versionBuild = 0 // bump for dogfood builds, public betas, etc.
+def packagename = "com.example.reduxsample"
+
+project.ext {
+    applicationId = packagename
+    buildToolsVersion = "26.0.1"
+    // buildToolsVersion = "23.0.3"
+    compileSdkVersion = 26
+    flavorDimensions = "region"
+    minSdkVersion = 21
+    targetSdkVersion = 23
+    versionCode = versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
+    versionName = "${versionMajor}.${versionMinor}.${versionPatch}"
+    abortOnLintError = false
+    checkLintRelease = false
+    useJack = false
+    abortOnLintError = false
+    javaVersion = JavaVersion.VERSION_1_8
+    packageName = packagename
+
+    //android support 
+    libSupportAppcompat = "com.android.support:appcompat-v7:${supportVersion}"
+    libSupportDesign = "com.android.support:design:${supportVersion}"
+    libSupportPalette = "com.android.support:palette-v7:${supportVersion}"
+    libSupportRecyclerview = "com.android.support:recyclerview-v7:${supportVersion}"
+    libSupportCardView = "com.android.support:cardview-v7:${supportVersion}"
+    libSupportAnnotations = "com.android.support:support-annotations:${supportVersion}"
+    libSupportV4 = "com.android.support:support-v4:${supportVersion}"
+    libSupportV13 = "com.android.support:support-v13:${supportVersion}"
+    libStream = "com.annimon:stream:1.1.7"
+
+    libButterKnife = "com.jakewharton:butterknife:${butterknifeVersion}"
+    libButterKnifeAnnotation = "com.jakewharton:butterknife-compiler:${butterknifeVersion}"
+
+    libDagger = "com.google.dagger:dagger:${daggerVersion}"
+    libDaggerAnnotation = "com.google.dagger:dagger-compiler:${daggerVersion}"
+    libDaggerAndroid = "com.google.dagger:dagger-android:${daggerVersion}"
+    libDaggerAndroidSupport = "com.google.dagger:dagger-android-support:${daggerVersion}"
+    libDaggerAndroidAnnotation = "com.google.dagger:dagger-android-processor:${daggerVersion}"
+
+    libOkHttp = "com.squareup.okhttp3:okhttp:${okhttpVersion}"
+    libOkHttpLoggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${okhttpVersion}"
+
+    // 文件缓存
+    libDiskLruCache = "com.jakewharton:disklrucache:${diskLruCacheVersion}"
+
+    //图片缓存
+    libFresco = "com.facebook.fresco:fresco:${frescoVersion}"
+    libFrescoOkHttp3 = "com.facebook.fresco:imagepipeline-okhttp3:${frescoVersion}"
+
+    //rx 
+    libRxAndroid = "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
+    libRxJava = "io.reactivex.rxjava2:rxjava:${rxjavaVersion}"
+    libRxPreferences = "com.f2prateek.rx.preferences2:rx-preferences:${rxPreferenceVersion}"
+
+    //activityrouter
+    libActivityRouter = "com.github.mzule.activityrouter:activityrouter:${activityrouterVersion}"
+    libActivityRouterAnnotation = "com.github.mzule.activityrouter:compiler:${activityrouterCompilerVersion}"
+
+    //java8 date
+    libThreetenabp = "com.jakewharton.threetenabp:threetenabp:${threetenabpVersion}"
+    //log
+    libTimber = "com.jakewharton.timber:timber:${timberVersion}"
+
+    //注解库
+    libJavaxAnnotation = "javax.annotation:jsr250-api:1.0"
+    libGlassfishJavaxAnnotation = "org.glassfish:javax.annotation:10.0-b28"
+
+    //REST
+    libRetrofit = "com.squareup.retrofit2:retrofit:${retrofitVersion}"
+    libRetrofitConverterMoshi = "com.squareup.retrofit2:converter-moshi:${retrofitVersion}"
+    libRetrofitConverterGson = "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
+    libRetrofitMock = "com.squareup.retrofit2:retrofit-mock:${retrofitVersion}"
+    libRetrofitAdapterRxJava = "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}"
+
+    //权限
+    libPermissionsDispatcher = "com.github.hotchemi:permissionsdispatcher:${permissionsdispatcherVersion}"
+    libPermissionsDispatcherProcessor = "com.github.hotchemi:permissionsdispatcher-processor:${permissionsdispatcherVersion}"
+    //指纹库
+    libFingerPrint = "com.wei.android.lib:fingerprintidentify:${fingerPrintLibVersion}"
+
+    libReductor = "com.yheriatovych:reductor:${reductorVersion}"
+    libReductorAnnotation = "com.yheriatovych:reductor-processor:${reductorVersion}"
+
+    //图表库
+    libChart = "com.github.PhilJay:MPAndroidChart:${chartVersion}"
+    //数据库
+    libGreenDao = 'org.greenrobot:greendao:3.2.0'
+    // 3.x无需使用generator
+    // libGreenDaoGenerator = 'org.greenrobot:greendao-generator:3.2.0'
+
+    //activity/fragment/view 退出状态
+    libIcepick = "frankiesardo:icepick:${icepickVersion}"
+    libIcepickProvided = "frankiesardo:icepick-processor:${icepickVersion}"
+    
+    //自动生成pojo/bean
+    libAutoValue = "com.google.auto.value:auto-value:${autoValueVersion}"
+    libAutoValueGson = "com.ryanharter.auto.value:auto-value-gson:${autoValueGsonVersion}"
+    libAutoParcel = "com.ryanharter.auto.value:auto-value-parcel:${autoValueParcelVersion}"
+    libAutoParcelAdapter = "com.ryanharter.auto.value:auto-value-parcel-adapter:${autoValueParcelVersion}"
+
+    //gson
+    libGson = "com.google.code.gson:gson:${gsonVersion}"
+
+    //假数据
+    libMoshi = "com.squareup.moshi:moshi:${moshiVersion}"
+
+    //flexbox 布局
+    libFlexbox = "com.google.android:flexbox:${flexboxVersion}"
+
+    libLoadingAnim = 'com.wang.avi:library:2.1.3'
+
+    //recyclerview 分割线
+    libRecyclerviewFlexibleDivider = 'com.yqritc:recyclerview-flexibledivider:1.4.0'
+
+    //进度条
+    libRoundCornerProgressBar = "com.akexorcist:RoundCornerProgressBar:2.0.3"
+    libSmoothProgressBar = 'com.github.castorflex.smoothprogressbar:library:1.1.0'
+
+    //////////////////////// 下面的都是 debug/test 用途  ////////////////////////////
+    //debug bitmap zoom
+    libMadge = 'com.jakewharton.madge:madge:1.1.3'
+    //三维效果的界面布局层次展示
+    libScalpel = 'com.jakewharton.scalpel:scalpel:1.1.2'
+    //重启进程
+    libProcessPhoenix = 'com.jakewharton:process-phoenix:1.0.2'
+
+    //chrome 中调试android
+    libStetho = 'com.facebook.stetho:stetho:1.3.1'
+    libStethoOhttp = 'com.facebook.stetho:stetho-okhttp3:1.3.1'
+
+    //androidText
+    libJunit = "junit:junit:4.12"
+    libTest = "com.android.support.test:testing-support-lib:0.1"
+    libTestRunner = 'com.android.support.test:runner:0.5'
+    libTestRules = 'com.android.support.test:rules:0.4.1'
+    libTestEspressoCore = 'com.android.support.test.espresso:espresso-core:2.2.2'
+    libTestEspressoContrib = "com.android.support.test.espresso:espresso-contrib:2.2.1"
+    libTestUiAutomator = 'com.android.support.test.uiautomator:uiautomator-v18:2.1.1'
+    //截图
+    libSpoon = 'com.squareup.spoon:spoon-client:1.2.0'
+
+    debugDependencies = [
+        leakCanary: "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",
+        blockCanary: "com.github.moduth:blockcanary-ui:${blockCanaryVersion}",
+    ]
+
+    releaseDependencies = [
+        leakCanary: "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}",
+        blockCanary: "com.github.moduth:blockcanary-no-op:${blockCanaryVersion}",
+    ]
+}

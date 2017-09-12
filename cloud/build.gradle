@@ -1,0 +1,55 @@
+apply plugin: 'com.android.library'
+def config = rootProject.ext
+android {
+    compileSdkVersion config.compileSdkVersion
+    buildToolsVersion config.buildToolsVersion
+    flavorDimensions config.flavorDimensions
+
+    defaultConfig {
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation config.libGson
+
+    implementation config.libAutoValue
+    annotationProcessor config.libAutoValue
+    androidTestAnnotationProcessor config.libAutoValue
+    testAnnotationProcessor config.libAutoValue
+
+    annotationProcessor config.libAutoValueGson
+    compileOnly rootProject.ext.libAutoValueGson
+
+    annotationProcessor config.libAutoParcel
+    implementation config.libAutoParcelAdapter
+
+    implementation config.libRetrofit
+    implementation(config.libRetrofitConverterGson) {
+        exclude module: 'gson'
+    }
+    implementation config.libRetrofitAdapterRxJava
+
+    implementation "com.google.code.findbugs:jsr305:3.0.1"
+
+    testImplementation config.libJunit
+    androidTestImplementation config.libTestRunner
+    androidTestImplementation config.libTestEspressoCore
+}

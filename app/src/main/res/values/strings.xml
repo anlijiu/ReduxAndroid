@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ReduxSample</string>
+    <string name="add">add</string>
+    <string name="num_1">1</string>
+    <string name="minus">minus</string>
+    <string name="auto_increase">auto increase</string>
+    <string name="loading">loading...</string>
+</resources>

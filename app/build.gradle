@@ -1,0 +1,112 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'me.tatarka.retrolambda'
+
+
+def config = rootProject.ext
+
+
+android {
+    compileSdkVersion config.compileSdkVersion
+    buildToolsVersion config.buildToolsVersion
+    flavorDimensions config.flavorDimensions
+    defaultConfig {
+        applicationId config.packageName
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode config.versionCode
+        versionName config.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+        china {
+            applicationId "${config.packageName}.china"
+            dimension "region"
+
+        }
+        overseas {
+            applicationId "${config.packageName}.overseas"
+            dimension "region"
+        }
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+}
+
+
+dependencies {
+    implementation project(path: ':base')
+    implementation project(path: ':cloud')
+    implementation project(path: ':count')
+    implementation project(path: ':user')
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    chinaImplementation fileTree(dir: 'chinaLibs', include: ['*.jar'])
+    overseasImplementation fileTree(dir: 'overseasLibs', include: ['*.jar'])
+
+    implementation config.libSupportAppcompat
+    implementation config.libSupportRecyclerview
+
+    implementation config.libDagger
+    implementation config.libDaggerAndroid
+    implementation config.libDaggerAndroidSupport
+    annotationProcessor config.libDaggerAnnotation
+    annotationProcessor config.libDaggerAndroidAnnotation
+
+    implementation config.libTimber
+
+    implementation config.libFresco
+    implementation config.libFrescoOkHttp3
+
+    implementation config.libButterKnife
+    annotationProcessor config.libButterKnifeAnnotation
+
+    implementation config.libReductor
+    annotationProcessor config.libReductorAnnotation
+
+    implementation config.libActivityRouter
+    annotationProcessor config.libActivityRouterAnnotation
+
+    implementation config.libGson
+
+    implementation config.libAutoValue
+    annotationProcessor config.libAutoValue
+
+    annotationProcessor config.libAutoValueGson
+    compileOnly rootProject.ext.libAutoValueGson
+
+    annotationProcessor config.libAutoParcel
+    implementation config.libAutoParcelAdapter
+
+    implementation config.libThreetenabp
+
+    implementation config.libOkHttp
+    implementation config.libOkHttpLoggingInterceptor
+
+    implementation config.libRetrofit
+    implementation(config.libRetrofitConverterGson) {
+        exclude module: 'gson'
+    }
+    implementation config.libRetrofitAdapterRxJava
+
+    implementation config.libRxAndroid 
+    implementation config.libRxPreferences
+    testImplementation config.libJunit
+    androidTestImplementation config.libTestRunner
+    androidTestImplementation config.libTestEspressoCore
+    androidTestAnnotationProcessor config.libAutoValue
+
+}

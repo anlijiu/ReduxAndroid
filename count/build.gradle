@@ -1,0 +1,90 @@
+apply plugin: 'com.android.library'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.jakewharton.butterknife'
+
+def config = rootProject.ext
+
+android {
+    compileSdkVersion config.compileSdkVersion
+    buildToolsVersion config.buildToolsVersion
+    flavorDimensions config.flavorDimensions
+
+    defaultConfig {
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+     productFlavors {
+         china {
+             dimension "region"
+
+         }
+         overseas {
+             dimension "region"
+         }
+     }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly project(path: ':base')
+
+    implementation config.libSupportAppcompat
+    implementation config.libSupportRecyclerview
+
+    implementation config.libDagger
+    implementation config.libDaggerAndroid
+    implementation config.libDaggerAndroidSupport
+    annotationProcessor config.libDaggerAnnotation
+    annotationProcessor config.libDaggerAndroidAnnotation
+
+    implementation config.libTimber
+
+    implementation config.libActivityRouter
+    annotationProcessor config.libActivityRouterAnnotation
+
+    implementation config.libButterKnife
+    annotationProcessor config.libButterKnifeAnnotation
+
+    implementation config.libReductor
+    annotationProcessor config.libReductorAnnotation
+
+    implementation config.libGson
+
+    implementation config.libAutoValue
+    annotationProcessor config.libAutoValue
+    androidTestAnnotationProcessor config.libAutoValue
+    testAnnotationProcessor config.libAutoValue
+
+    annotationProcessor config.libAutoValueGson
+    compileOnly rootProject.ext.libAutoValueGson
+
+    annotationProcessor config.libAutoParcel
+    implementation config.libAutoParcelAdapter
+
+    implementation config.libRxAndroid
+
+    testImplementation config.libJunit
+    androidTestImplementation config.libTestRunner
+    androidTestImplementation config.libTestEspressoCore
+}

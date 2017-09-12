@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Count</string>
+    <string name="num_1">1</string>
+    <string name="show_router">let\'s route</string>
+</resources>

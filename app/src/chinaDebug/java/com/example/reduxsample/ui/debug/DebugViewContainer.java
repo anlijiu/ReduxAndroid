@@ -24,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-@ScreenScope
+@Singleton
 public final class DebugViewContainer implements ViewContainer {
     @Inject Store<AppState> store;
     static class ViewHolder {

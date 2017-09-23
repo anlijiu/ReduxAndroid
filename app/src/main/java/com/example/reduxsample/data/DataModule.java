@@ -4,17 +4,14 @@ import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 
 import com.example.cloud.CloudGsonAdapterFactory;
-import com.example.reduxsample.SampleApplication;
+import com.example.data.CanBusAgent;
 import com.example.reduxsample.data.gson.AutoValueAdapterFactory;
 import com.example.reduxsample.data.gson.ExclusionUnderlineStrategy;
 import com.example.reduxsample.utils.PermissionUtils;
 import com.f2prateek.rx.preferences2.Preference;
 import com.f2prateek.rx.preferences2.RxSharedPreferences;
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -96,5 +93,10 @@ public class DataModule {
         return new File(dir, "http");
     }
 
+    @Provides
+    @Singleton
+    CanBusAgent provideCanBusAgent() {
+        return new CanBusAgent();
+    }
 
 }

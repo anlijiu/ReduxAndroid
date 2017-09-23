@@ -1,17 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="40dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/tv_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
+    <data>
+        <import type="com.example.cloud.models.User" />
+        <import type="java.lang.String" />
+        <variable
+            name="item"
+            type="com.example.cloud.models.User" />
 
-    <TextView
-        android:id="@+id/tv_login"
+        <variable
+            name="onClickListener"
+            type="com.example.ui.misc.OnClickListener" />
+    </data>
+    <!--android:onClick="@{(view) -> onClickListener.onClick(view, item)}"-->
+    <LinearLayout 
+        android:orientation="horizontal" 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
-</LinearLayout>
+        android:layout_height="40dp"
+        android:focusable="true"
+        android:background="@drawable/bg_item_user"
+
+        >
+
+        <TextView
+            android:id="@+id/tv_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@{String.valueOf(item.id())}"/>
+
+        <TextView
+            android:id="@+id/tv_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@{item.login()}"/>
+    </LinearLayout>
+</layout>

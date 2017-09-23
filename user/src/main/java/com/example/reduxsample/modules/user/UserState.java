@@ -23,14 +23,17 @@ public abstract class UserState implements Parcelable {
     @Nullable
     public abstract String searchName();
 
+    public abstract int page();
+
     public abstract Builder toBuilder();
 
-    public static UserState create(UserList userList, User user, String errorMsg, String searchName) {
+    public static UserState create(UserList userList, User user, String errorMsg, String searchName, int page) {
         return builder()
                 .userList(userList)
                 .user(user)
                 .errorMsg(errorMsg)
                 .searchName(searchName)
+                .page(page)
                 .build();
     }
 
@@ -47,6 +50,8 @@ public abstract class UserState implements Parcelable {
         public abstract Builder errorMsg(String errorMsg);
 
         public abstract Builder searchName(String searchName);
+
+        public abstract Builder page(int page);
 
         public abstract UserState build();
     }

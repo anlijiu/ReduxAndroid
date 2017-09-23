@@ -8,6 +8,10 @@ android {
     buildToolsVersion config.buildToolsVersion
     flavorDimensions config.flavorDimensions
 
+    dataBinding {
+        enabled = true
+    }
+
     defaultConfig {
         minSdkVersion config.minSdkVersion
         targetSdkVersion config.targetSdkVersion
@@ -15,8 +19,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -31,6 +35,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api project(path: ':redux')
 
     implementation config.libSupportAppcompat
     implementation config.libSupportRecyclerview
@@ -41,16 +46,28 @@ dependencies {
     annotationProcessor config.libDaggerAnnotation
     annotationProcessor config.libDaggerAndroidAnnotation
 
+    implementation config.libThreetenabp 
+
     implementation config.libButterKnife
     annotationProcessor config.libButterKnifeAnnotation
+
+    implementation config.libAutoValue
+    annotationProcessor config.libAutoValue
+    androidTestAnnotationProcessor config.libAutoValue
+    testAnnotationProcessor config.libAutoValue
+
+    annotationProcessor config.libAutoValueGson
+    compileOnly rootProject.ext.libAutoValueGson
+
+    annotationProcessor config.libAutoParcel
+    implementation config.libAutoParcelAdapter
 
     implementation config.libFresco
     implementation config.libFrescoOkHttp3
 
     implementation config.libTimber
 
-    implementation config.libReductor
-    annotationProcessor config.libReductorAnnotation
+    implementation config.libRxAndroid
 
     testImplementation config.libJunit
     androidTestImplementation config.libTestRunner

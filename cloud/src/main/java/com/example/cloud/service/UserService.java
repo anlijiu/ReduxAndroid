@@ -16,7 +16,7 @@ import retrofit2.http.QueryMap;
 public interface UserService {
 
     @GET("/search/users?per_page=20")
-    Observable<UserList> searchGithubUsers(@Query("q") String searchTerm);
+    Observable<UserList> searchGithubUsers(@Query("q") String searchTerm, @Query("page") int page);
 
     @GET("/users/{username}")
     Observable<User> getUser(@Path("username") String username);

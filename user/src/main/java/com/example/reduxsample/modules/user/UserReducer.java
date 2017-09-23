@@ -19,7 +19,7 @@ public abstract class UserReducer implements Reducer<UserState> {
     UserState initState() {
         return UserState.create(
                 UserList.builder().build(),
-                User.builder().build(), "", "");
+                User.builder().build(), "", "", 1);
     }
 
     @AutoReducer.Action(
@@ -27,7 +27,7 @@ public abstract class UserReducer implements Reducer<UserState> {
             from = UserActions.class
     )
     public UserState searchUsers(
-            UserState current, String q
+            UserState current, String q, int page
     ) {
         Timber.i("UserReducer sssss searchUsers q is %s", q);
         return current.toBuilder()
@@ -52,6 +52,20 @@ public abstract class UserReducer implements Reducer<UserState> {
     }
 
     @AutoReducer.Action(
+            value = UserActions.USER__SEARCH_USERS_ERROR,
+            from = UserActions.class
+    )
+    public UserState searchUsersError(
+            UserState current, String errorMsg
+    ) {
+        Timber.i("UserReducer searchUsersError msg is %s", errorMsg);
+        return current.toBuilder()
+                .errorMsg(errorMsg)
+                .userList(UserList.builder().loading(false).build())
+                .build();
+    }
+
+    @AutoReducer.Action(
             value = UserActions.USER__CHOOSE_USER,
             from = UserActions.class
     )
@@ -62,6 +76,39 @@ public abstract class UserReducer implements Reducer<UserState> {
                 .user(user)
                 .build();
     }
+
+    @AutoReducer.Action(
+            value = UserActions.USER__LOAD_MORE,
+            from = UserActions.class
+    )
+    public UserState loadMore(
+            UserState current
+    ) {
+        return current.toBuilder()
+                .userList(current.userList().toBuilder().loading(true).build())
+                .build();
+    }
+
+    @AutoReducer.Action(
+            value = UserActions.USER__LOAD_MORE_SUCCESS,
+            from = UserActions.class
+    )
+    public UserState loadMoreSuccess(
+            UserState current, UserList list
+    ) {
+        List<User> origList = current.userList().items();
+        List<User> more = list.items();
+        origList.addAll(more);
+        Timber.d("UserReducer sssss afterLoad ,size is %d", origList.size());
+        for(User user : origList) {
+            Timber.d(user.login());
+        }
+        return current.toBuilder()
+                .page(current.page() + 1)
+                .userList(current.userList().toBuilder().items(origList).loading(false).build())
+                .build();
+    }
+
 
     public static UserReducer create() {
         return new UserReducerImpl();

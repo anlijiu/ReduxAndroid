@@ -2,6 +2,7 @@ package com.example.reduxsample.data.api;
 
 
 import com.example.cloud.service.UserService;
+import com.example.reduxsample.data.api.retrofit.RxErrorHandlingCallAdapterFactory;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -45,7 +46,7 @@ public final class ApiModule {
                 .baseUrl(baseUrl) //
                 .addConverterFactory(GsonConverterFactory.create(gson)) //
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                //.addCallAdapterFactory(RxJavaCallAdapterFactory.create()) //
+                .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create())
                 .build();
     }
 

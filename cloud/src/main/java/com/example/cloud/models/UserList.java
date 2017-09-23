@@ -14,8 +14,6 @@ import javax.annotation.Nullable;
 
 @AutoValue
 public abstract class UserList implements Parcelable {
-
-
     @Nullable
     @SerializedName("total_count")
     public abstract Integer totalCount();

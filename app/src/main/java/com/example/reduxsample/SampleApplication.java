@@ -1,6 +1,13 @@
 package com.example.reduxsample;
 
+import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+
+import com.example.data.CanBusAgent;
 import com.example.reduxsample.di.DaggerAppComponent;
+import com.example.ui.ActivityLifecyclesServer;
+import com.example.ui.misc.FlexibleToast;
 import com.facebook.cache.disk.DiskCacheConfig;
 import com.facebook.common.internal.Supplier;
 import com.facebook.common.util.ByteConstants;
@@ -16,6 +23,8 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.support.DaggerApplication;
+import io.reactivex.functions.Consumer;
+import io.reactivex.plugins.RxJavaPlugins;
 import okhttp3.OkHttpClient;
 import timber.log.Timber;
 
@@ -23,6 +32,22 @@ public class SampleApplication extends DaggerApplication {
 
     @Inject
     OkHttpClient okHttpClient;
+    @Inject
+    Context context;
+    @Inject
+    ActivityLifecyclesServer.Proxy proxy;
+    @Inject
+    CanBusAgent canBusAgent;
+
+    /**
+     * 全局的 handler 对象
+     */
+    private final Handler APPHANDLER = new Handler();
+
+    /**
+     * 全局的 Toast 对象
+     */
+    private FlexibleToast flexibleToast;
 
     @Override
     public AndroidInjector<? extends DaggerApplication> applicationInjector() {
@@ -33,7 +58,36 @@ public class SampleApplication extends DaggerApplication {
     public void onCreate() {
         super.onCreate();
         Timber.plant(new Timber.DebugTree());
+        Timber.d("  okHttpClient is %s", okHttpClient);
+        Timber.d("  context is %s", context);
+        registerActivityLifecycleCallbacks(proxy);
         initImageLoader();
+
+//        RxJavaPlugins.setErrorHandler(throwable -> {
+//            throwable.printStackTrace();
+//            Timber.e("RxJavaPlugins.getInstance() handleError -> %s", throwable);
+//        });
+
+        testThread.start();
+    }
+
+    public Handler getAppHandler() {
+        return APPHANDLER;
+    }
+
+    public void showToastByBuilder(final FlexibleToast.Builder builder) {
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            getAppHandler().post(new Runnable() {
+                @Override
+                public void run() {
+                    Timber.d("flexibleToast show in bg thread");
+                    flexibleToast.toastShow(builder);
+                }
+            });
+        } else {
+            Timber.d("flexibleToast show in main thread");
+            flexibleToast.toastShow(builder);
+        }
     }
 
     private static final int MAX_HEAP_SIZE = (int) Runtime.getRuntime().maxMemory();
@@ -69,6 +123,24 @@ public class SampleApplication extends DaggerApplication {
                 .build()).build();
         Fresco.initialize(this, config);
     }
+
+    //TODO  test only,  remove this when real data verify
+    Thread testThread = new Thread(new Runnable() {
+        int seconds = 0;
+
+        @Override
+        public void run() {
+            while (true) {
+                seconds++;
+                canBusAgent.deliver("from can,  " + seconds);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
 
 
 }

@@ -115,8 +115,8 @@ project.ext {
     //指纹库
     libFingerPrint = "com.wei.android.lib:fingerprintidentify:${fingerPrintLibVersion}"
 
-    libReductor = "com.yheriatovych:reductor:${reductorVersion}"
-    libReductorAnnotation = "com.yheriatovych:reductor-processor:${reductorVersion}"
+    // libReductor = "com.yheriatovych:reductor:${reductorVersion}"
+    // libReductorAnnotation = "com.yheriatovych:reductor-processor:${reductorVersion}"
 
     //图表库
     libChart = "com.github.PhilJay:MPAndroidChart:${chartVersion}"

@@ -18,6 +18,7 @@ import java.util.List;
 class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
     private List<User> users;
     private final Consumer<User> onClickListener;
+    private int selectPosition = 0;
 
     public UserAdapter(List<User> users, Consumer<User> onClickListener) {
         this.users = users;
@@ -26,8 +27,11 @@ class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
     @Override
     public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new UserViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_user, parent, false));
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_user, parent, false);
+
+        UserViewHolder viewHolder = new UserViewHolder(view);
+        return viewHolder;
     }
 
     @Override
@@ -42,6 +46,14 @@ class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            if (position == RecyclerView.NO_POSITION) return;
+
+            // Updating old as well as new positions
+            notifyItemChanged(selectPosition);
+            selectPosition = position;
+            holder.itemView.setSelected(true);
+            notifyItemChanged(selectPosition);
+
         });
     }
 

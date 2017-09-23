@@ -13,11 +13,11 @@ import dagger.Provides;
 import dagger.android.ContributesAndroidInjector;
 import dagger.multibindings.IntoMap;
 
-@Module()
+@Module(includes = UiModule.class)
 public final class DebugUiModule {
 
     @Provides
-    @ScreenScope
+    @Singleton
     ViewContainer provideAppContainer(DebugViewContainer appContainer) {
         return appContainer;
     }

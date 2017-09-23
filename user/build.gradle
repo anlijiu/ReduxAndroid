@@ -9,6 +9,10 @@ android {
     buildToolsVersion config.buildToolsVersion
     flavorDimensions config.flavorDimensions
 
+    dataBinding {
+        enabled = true
+    }
+
     defaultConfig {
         minSdkVersion config.minSdkVersion
         targetSdkVersion config.targetSdkVersion
@@ -46,48 +50,37 @@ android {
 }
 
 dependencies {
-    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly fileTree(include: ['*.jar'], dir: 'libs')
+    api project(path: ':redux')
+    annotationProcessor project(path: ':redux-compiller')
     compileOnly project(path: ':base')
     implementation project(path: ':cloud')
-
     implementation config.libSupportAppcompat
     implementation config.libSupportRecyclerview
-
+    implementation config.libSupportDesign
     implementation config.libDagger
     implementation config.libDaggerAndroid
     implementation config.libDaggerAndroidSupport
     annotationProcessor config.libDaggerAnnotation
     annotationProcessor config.libDaggerAndroidAnnotation
-
     implementation config.libFresco
     implementation config.libFrescoOkHttp3
-
+    implementation config.libThreetenabp
     implementation config.libTimber
-
     implementation config.libActivityRouter
     annotationProcessor config.libActivityRouterAnnotation
-
     implementation config.libButterKnife
     annotationProcessor config.libButterKnifeAnnotation
-
-    implementation config.libReductor
-    annotationProcessor config.libReductorAnnotation
-
     implementation config.libGson
-
     implementation config.libAutoValue
     annotationProcessor config.libAutoValue
     androidTestAnnotationProcessor config.libAutoValue
     testAnnotationProcessor config.libAutoValue
-
     annotationProcessor config.libAutoValueGson
     compileOnly rootProject.ext.libAutoValueGson
-
     annotationProcessor config.libAutoParcel
     implementation config.libAutoParcelAdapter
-
     implementation config.libRxAndroid
-
     testImplementation config.libJunit
     androidTestImplementation config.libTestRunner
     androidTestImplementation config.libTestEspressoCore

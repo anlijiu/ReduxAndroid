@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="java.lang.String" />
+        <variable
+            name="item"
+            type="java.lang.Object" />
+
+        <variable
+            name="onClickListener"
+            type="com.example.ui.misc.OnClickListener" />
+    </data>
+    <!--android:onClick="@{(view) -> onClickListener.onClick(view, item)}"-->
+    <LinearLayout 
+        android:orientation="horizontal" 
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:focusable="true"
+        >
+    </LinearLayout>
+</layout>

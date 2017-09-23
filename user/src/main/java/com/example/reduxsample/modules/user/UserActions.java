@@ -14,6 +14,10 @@ public interface UserActions {
     String USER__SEARCH_USERS_SUCCESS = "USER__SEARCH_USERS_SUCCESS";
     String USER__SEARCH_USERS_ERROR = "USER__SEARCH_USERS_ERROR";
 
+    String USER__LOAD_MORE = "USER__LOAD_MORE";
+    String USER__LOAD_MORE_SUCCESS = "USER__LOAD_MORE_SUCCESS";
+    String USER__LOAD_MORE_ERROR = "USER__LOAD_MORE_ERROR";
+
     String USER__GET_USER = "USER__GET_USER";
     String USER__GET_USER_SUCCESS = "USER__GET_USER_SUCCESS";
     String USER__GET_USER_ERROR = "USER__GET_USER_ERROR";
@@ -21,11 +25,18 @@ public interface UserActions {
     String USER__CHOOSE_USER = "USER__CHOOSE_USER";
 
     @ActionCreator.Action(USER__SEARCH_USERS)
-    Action searchUsers(String q);
+    Action searchUsers(String q, int page);
     @ActionCreator.Action(USER__SEARCH_USERS_SUCCESS)
     Action searchUsersSuccess(UserList userList);
     @ActionCreator.Action(USER__SEARCH_USERS_ERROR)
     Action searchUsersError(String errorMsg);
+
+    @ActionCreator.Action(USER__LOAD_MORE)
+    Action loadMore();
+    @ActionCreator.Action(USER__LOAD_MORE_SUCCESS)
+    Action loadMoreSuccess(UserList userList);
+    @ActionCreator.Action(USER__LOAD_MORE_ERROR)
+    Action loadMoreError(String errorMsg);
 
     @ActionCreator.Action(USER__GET_USER)
     Action getUser(String userName);

@@ -10,6 +10,11 @@ android {
     compileSdkVersion config.compileSdkVersion
     buildToolsVersion config.buildToolsVersion
     flavorDimensions config.flavorDimensions
+
+    dataBinding {
+        enabled = true
+    }
+
     defaultConfig {
         applicationId config.packageName
         minSdkVersion config.minSdkVersion
@@ -44,10 +49,16 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+
+    dexOptions {
+        preDexLibraries = false
+    }
+
 }
 
 
 dependencies {
+    implementation project(path: ':redux')
     implementation project(path: ':base')
     implementation project(path: ':cloud')
     implementation project(path: ':count')
@@ -59,6 +70,7 @@ dependencies {
 
     implementation config.libSupportAppcompat
     implementation config.libSupportRecyclerview
+    implementation config.libSupportDesign
 
     implementation config.libDagger
     implementation config.libDaggerAndroid
@@ -74,8 +86,8 @@ dependencies {
     implementation config.libButterKnife
     annotationProcessor config.libButterKnifeAnnotation
 
-    implementation config.libReductor
-    annotationProcessor config.libReductorAnnotation
+    // implementation config.libReductor
+    annotationProcessor project(path: ':redux-compiller')
 
     implementation config.libActivityRouter
     annotationProcessor config.libActivityRouterAnnotation

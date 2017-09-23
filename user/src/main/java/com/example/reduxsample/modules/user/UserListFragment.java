@@ -1,11 +1,10 @@
 package com.example.reduxsample.modules.user;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,31 +12,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.cloud.models.UserList;
-import com.example.reduxsample.modules.user.base.BaseFragment;
-import com.yheriatovych.reductor.Actions;
-import com.yheriatovych.reductor.Cancelable;
-import com.yheriatovych.reductor.Cursor;
-import com.yheriatovych.reductor.Cursors;
-import com.yheriatovych.reductor.Store;
+import com.example.cloud.models.User;
 
+import com.example.reduxsample.modules.user.base.mvpvm.BaseMvpvmFragment;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import dagger.android.support.AndroidSupportInjection;
-import timber.log.Timber;
+import io.reactivex.functions.Consumer;
+
+import com.example.ui.misc.OnClickListener;
+import com.example.ui.misc.command.ReplyCommand;
 
 
-public class UserListFragment extends BaseFragment {
+public class UserListFragment extends BaseMvpvmFragment {
     public static final String TAG = UserListFragment.class.getSimpleName();
-    @Inject
-    Store<UserState> store;
 
-    Cancelable mCancelable;
-    UserActions userActions;
-    Cursor<UserList> userStateCursor;
+    @Inject UserListPresenter presenter;
+    @Inject UserListViewModel viewModel;
 
     @BindView(R2.id.btn_search)
     Button btnSearch;
@@ -48,6 +40,16 @@ public class UserListFragment extends BaseFragment {
     @BindView(R2.id.tv_loading)
     TextView tvLoading;
 
+    private final OnClickListener<User> onClickListener = (view, user) -> {
+        presenter.showUserDetail(user);
+    };
+
+    public final ReplyCommand onLoadMore = new ReplyCommand(new Consumer<Integer>() {
+        @Override
+        public void accept(Integer totalCount) throws Exception {
+            presenter.loadMore(totalCount);
+        }
+    });
 
     public static UserListFragment newInstance() {
         return new UserListFragment();
@@ -64,36 +66,27 @@ public class UserListFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        Timber.e("UserListFragment sssss onViewCreated");
-        userActions = Actions.from(UserActions.class);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        final UserAdapter adapter = new UserAdapter(store.getState().userList().items(),
-                user -> store.dispatch(userActions.chooseUser(user)));
-        recyclerView.setAdapter(adapter);
-
-        userStateCursor = Cursors.map(store, state -> state.userList());
-        mCancelable = userStateCursor.subscribe(state -> {
-            Timber.e("UserListFragment sssss  users size is %d, loading is %b", state.items().size(), state.loading());
-            adapter.setusers(state.items());
-            int loadingVisable = state.loading() ? View.VISIBLE : View.INVISIBLE;
-            tvLoading.setVisibility(loadingVisable);
-        });
+    protected ViewDataBinding binding(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ViewDataBinding binding = super.binding(inflater, container, savedInstanceState);
+        binding.setVariable(BR.onItemClickListener, onClickListener);
+        binding.setVariable(BR.viewModel, viewModel);
+        binding.setVariable(BR.onLoadMore, onLoadMore);
+        return binding;
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mCancelable.cancel();
+    protected UserListPresenter presenter() {
+        return presenter;
+    }
+
+    @Override
+    protected UserListViewModel viewModel() {
+        return viewModel;
     }
 
     @OnClick(R2.id.btn_search)
     void onClick(View view) {
         String s = etvSearchValue.getText().toString();
-        if(!TextUtils.isEmpty(s)) {
-            store.dispatch(userActions.searchUsers(s));
-        }
+        presenter.searchUser(s);
     }
 }

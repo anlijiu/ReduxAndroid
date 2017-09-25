@@ -27,6 +27,7 @@ public class UserPlugin implements Plugin, HostDelegate.OnSelectMenuChangeListen
         this.hostDelegate = hostDelegate;
         this.context = context;
         hostDelegate.addOnMenuClickListener(this);
+        Timber.d("hostDelegate is %s", hostDelegate);
     }
 
     @Override
@@ -41,6 +42,7 @@ public class UserPlugin implements Plugin, HostDelegate.OnSelectMenuChangeListen
 
     @Override
     public void onSelectMenuChanged(@HostDelegate.Menu int menuItem) {
+        Timber.d("UserPlugin onSelectMenuChanged , menuItem is %d", menuItem);
         if(HostDelegate.Menu.CLIMATE == menuItem) {
             Fragment userListFragment = Fragment.instantiate(context, UserListFragment.class.getName());
             Fragment userFragment = Fragment.instantiate(context, UserFragment.class.getName());

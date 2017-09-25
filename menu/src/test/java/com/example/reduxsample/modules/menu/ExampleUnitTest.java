@@ -1,4 +1,4 @@
-package com.example.count;
+package com.example.reduxsample.modules.menu;
 
 import org.junit.Test;
 

@@ -1,42 +1,27 @@
-package com.example.reduxsample.modules.count;
+package com.example.reduxsample.modules.menu;
 
 import com.yheriatovych.reductor.Reducer;
 import com.yheriatovych.reductor.annotations.AutoReducer;
 
 @AutoReducer
-public abstract class CounterReducer implements Reducer<CounterState> {
+public abstract class MenuReducer implements Reducer<MenuState> {
 
     @AutoReducer.InitialState
-    CounterState initState() {
-        return CounterState.create(0, "");
+    MenuState initState() {
+        return MenuState.create(0, false);
     }
 
     @AutoReducer.Action(
-            value = CounterActions.COUNTER__ADD,
-            from = CounterActions.class
+            value = MenuActions.MENU__SELECT,
+            from = MenuActions.class
     )
-    public CounterState counterAdd(CounterState current, int value) {
-        return current.toBuilder().value(current.value() + value).build();
-    }
-
-    @AutoReducer.Action(
-            value = CounterActions.COUNTER__MINUS,
-            from = CounterActions.class
-    )
-    public CounterState counterMinus(CounterState current, int value) {
-        return current.toBuilder().value(current.value() - value).build();
-    }
-
-    @AutoReducer.Action(
-            value = CounterActions.COUNTER__CAN_VALUE_FOR_TEST,
-            from = CounterActions.class
-    )
-    public CounterState updateCanValue(CounterState current, String value) {
-        return current.toBuilder().canValueForTest(value).build();
+    public MenuState select(MenuState current, int id, boolean byUser) {
+        int selectId = current.selectId() == id ? 0 : id;
+        return current.toBuilder().byUser(byUser).selectId(selectId).build();
     }
 
 
-    public static CounterReducer create() {
-        return new CounterReducerImpl();
+    public static MenuReducer create() {
+        return new MenuReducerImpl();
     }
 }

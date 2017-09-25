@@ -7,6 +7,7 @@ import android.os.Environment;
 
 import com.example.cloud.CloudGsonAdapterFactory;
 import com.example.data.CanBusAgent;
+import com.example.reduxsample.SampleApplication;
 import com.example.reduxsample.data.gson.AutoValueAdapterFactory;
 import com.example.reduxsample.data.gson.ExclusionUnderlineStrategy;
 import com.example.reduxsample.utils.PermissionUtils;
@@ -33,7 +34,7 @@ public class DataModule {
 
     @Provides
     @Singleton
-    SharedPreferences provideSharedPreferences(Context context) {
+    SharedPreferences provideSharedPreferences(SampleApplication context) {
         return context.getSharedPreferences("sample", MODE_PRIVATE);
     }
 
@@ -64,7 +65,7 @@ public class DataModule {
     @Provides
     @Singleton
     @Named("Root")
-    File provideRootDir(Context context){
+    File provideRootDir(SampleApplication context){
         File cacheDir;
         if ((Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
                 || !Environment.isExternalStorageRemovable())

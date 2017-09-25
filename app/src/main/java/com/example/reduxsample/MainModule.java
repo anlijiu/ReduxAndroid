@@ -28,18 +28,19 @@ import dagger.Provides;
 
 @Module
 public class MainModule {
-    @Provides
-    @ScreenScope
-    Context provideContext(MainActivity activity) {
-        return activity;
-    }
-
+//    @Provides
+//    @ScreenScope
+//    Context provideContext(MainActivity activity) {
+//        return activity;
+//    }
 
     @Provides
     @ScreenScope
     @Named("hostContainers")
     SparseArray<Integer> provideHostContainers() {
         SparseArray<Integer> containerIdPositions = new SparseArray<>();
+        containerIdPositions.append(HostDelegate.Position.LEFT_MENU, R.id.left_menu_container);
+        containerIdPositions.append(HostDelegate.Position.RIGHT_MENU, R.id.right_menu_container);
         containerIdPositions.append(HostDelegate.Position.B13_AREA, R.id.container_left);
         containerIdPositions.append(HostDelegate.Position.APP_SHORTCUT_AREA, R.id.container_right);
         return containerIdPositions;

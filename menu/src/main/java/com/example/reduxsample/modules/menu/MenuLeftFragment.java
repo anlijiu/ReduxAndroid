@@ -1,4 +1,4 @@
-package com.example.reduxsample.modules.count;
+package com.example.reduxsample.modules.menu;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,9 +14,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.example.count.R;
-import com.example.count.R2;
-import com.example.reduxsample.modules.count.base.BaseFragment;
+import com.example.plugin.HostDelegate;
+import com.example.reduxsample.modules.menu.R;
+import com.example.reduxsample.modules.menu.R2;
+import com.example.reduxsample.modules.menu.base.BaseFragment;
 import com.example.ui.Constants;
 import com.github.mzule.activityrouter.router.Routers;
 import com.yheriatovych.reductor.Actions;
@@ -35,35 +36,37 @@ import dagger.android.support.AndroidSupportInjection;
 import timber.log.Timber;
 
 
-public class CounterFragment extends BaseFragment {
-    public static final String TAG = CounterFragment.class.getSimpleName();
+public class MenuLeftFragment extends BaseFragment {
+    public static final String TAG = MenuLeftFragment.class.getSimpleName();
     private static final int MSG_WHAT_AUTO_INCREASE = 0;
     private static final int MSG_WHAT_AUTO_INCREASE_START = 1;
     private static final int MSG_WHAT_AUTO_INCREASE_STOP = 2;
 
     @Inject
-    Store<CounterState> store;
+    Store<MenuState> store;
+    @Inject
+    MenuPlugin menuPlugin;
 
-    @BindView(R2.id.tv_value)
-    TextView tvValue;
-    @BindView(R2.id.etxt_1)
-    EditText etxt1;
+    @BindView(R2.id.tbtn_1)
+    ToggleButton tbtn1;
+    @BindView(R2.id.tbtn_2)
+    ToggleButton tbtn2;
 
 
-    private CounterActions counterActions;
-    private Cursor<CounterState> counterCursor;
-    private Cancelable counterCancelable;
+    private MenuActions menuActions;
+    private Cursor<MenuState> menuCursor;
+    private Cancelable menuCancelable;
 
     private HandlerThread handlerThread;
     private Handler handler;
 
-    public static CounterFragment newInstance() {
-        return new CounterFragment();
+    public static MenuLeftFragment newInstance() {
+        return new MenuLeftFragment();
     }
 
     @Override
     public int layoutId() {
-        return R.layout.fragment_counter;
+        return R.layout.fragment_menu_left;
     }
 
     @Override
@@ -74,61 +77,32 @@ public class CounterFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Timber.e("CounterFragment store is %s", store);
-        counterActions = Actions.from(CounterActions.class);
-        counterCursor = Cursors.map(store, state -> state);
-        counterCancelable = counterCursor.subscribe(state -> tvValue.setText(String.valueOf(state.value())));
+        Timber.e("MenuFragment store is %s", store);
+        menuActions = Actions.from(MenuActions.class);
+        menuCursor = Cursors.map(store, state -> state);
+        menuCancelable = menuCursor.subscribe(state -> {
+            changeSelectedItem(state.selectId(), state.byUser());
+        });
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        counterCancelable.cancel();
+        menuCancelable.cancel();
     }
 
-    @OnClick({R2.id.btn_add, R2.id.btn_minus, R2.id.btn_show_router})
-    void onClick(View view) {
-        Timber.e("CounterFragment onClick view.getId is %d, R2.id.btn_add is %d", view.getId(), R2.id.btn_add);
-        if(view.getId() == R.id.btn_add) {
-            Timber.e("CounterFragment onClick add, %d", Integer.parseInt(etxt1.getText().toString()));
-            store.dispatch(counterActions.add(Integer.parseInt(etxt1.getText().toString())));
-        } else if(view.getId() == R.id.btn_minus) {
-            store.dispatch(counterActions.minus(Integer.parseInt(etxt1.getText().toString())));
-        } else if(view.getId() == R.id.btn_show_router) {
-            Routers.open(view.getContext(), "router://home/" + Constants.component_just_show + "/" + Constants.container_right);
+    private void changeSelectedItem(int selectId, boolean byUser) {
+        Timber.d(" changeSelectedItem selectId is %d, tbtn_1 is %d, tbtn_2 is %d", selectId, R.id.tbtn_1, R.id.tbtn_2);
+        if(selectId == R.id.tbtn_1) {
+            menuPlugin.selectMenu(HostDelegate.Menu.CLIMATE);
+        } else if(selectId == R.id.tbtn_2) {
+            menuPlugin.selectMenu(HostDelegate.Menu.LIGHT);
         }
     }
 
-    @OnCheckedChanged(R2.id.tbtn_auto_increase)
-    void onCheckedChanged (ToggleButton view, boolean isChecked){
-        if(isChecked) {
-            if(handlerThread == null) {
-                initBackgroundThead();
-            }
-            handler.sendEmptyMessage(MSG_WHAT_AUTO_INCREASE);
-        } else {
-            handler.removeCallbacksAndMessages(null);
-        }
-    }
-
-    private void initBackgroundThead() {
-        handlerThread = new HandlerThread("background counter auto increase");
-        handlerThread.start();
-        handler = new Handler(handlerThread.getLooper()) {
-            @Override
-            public void handleMessage(Message msg)
-            {
-                switch (msg.what) {
-                    case MSG_WHAT_AUTO_INCREASE:
-                        store.dispatch(counterActions.add(Integer.parseInt(etxt1.getText().toString())));
-                        Message m = this.obtainMessage(MSG_WHAT_AUTO_INCREASE);
-                        sendMessageDelayed(m, 1000);
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-        };
+    @OnClick({R2.id.tbtn_1, R2.id.tbtn_2})
+    void onClick(ToggleButton view) {
+        Timber.d(" onClick view.getId is %d, tbtn_1 is %d, tbtn_2 is %d ", view.getId(), R.id.tbtn_1, R.id.tbtn_2);
+        store.dispatch(menuActions.select(view.getId(), true));
     }
 }

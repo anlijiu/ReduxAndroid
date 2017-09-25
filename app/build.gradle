@@ -61,6 +61,7 @@ dependencies {
     implementation project(path: ':redux')
     implementation project(path: ':base')
     implementation project(path: ':cloud')
+    implementation project(path: ':menu')
     implementation project(path: ':count')
     implementation project(path: ':user')
 

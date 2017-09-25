@@ -1,7 +1,5 @@
 package com.example.reduxsample;
 
-import com.example.reduxsample.modules.user.di.UserModule;
-
 import dagger.Subcomponent;
 import dagger.android.AndroidInjector;
 

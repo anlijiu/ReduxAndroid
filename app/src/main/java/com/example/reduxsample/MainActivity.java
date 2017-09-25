@@ -23,6 +23,7 @@ import com.example.reduxsample.modules.count.CounterPlugin;
 import com.example.reduxsample.modules.count.JustReadFragment;
 import com.example.reduxsample.modules.displayLogic.DisplayLogicActions;
 import com.example.reduxsample.modules.displayLogic.DisplayLogicState;
+import com.example.reduxsample.modules.menu.MenuPlugin;
 import com.example.reduxsample.modules.user.UserFragment;
 import com.example.reduxsample.modules.user.UserListFragment;
 import com.example.reduxsample.modules.user.UserPlugin;
@@ -52,32 +53,16 @@ public class MainActivity extends BaseActivity {
     UserPlugin userPlugin;
     @Inject
     CounterPlugin counterPlugin;
-
+    @Inject
+    MenuPlugin menuPlugin;
+    @Inject
+    HostDelegate hostDelegate;
     @Inject
     ActivityLifecyclesServer.Proxy proxy;
 
 
     @Inject
     Store<AppState> store;
-
-    @BindView(R.id.tbtn_1)
-    ToggleButton tbtn1;
-    @BindView(R.id.tbtn_2)
-    ToggleButton tbtn2;
-    @BindView(R.id.tbtn_3)
-    ToggleButton tbtn3;
-    @BindView(R.id.tbtn_4)
-    ToggleButton tbtn4;
-
-    Cancelable mCancelable;
-    DisplayLogicActions displayLogicActions;
-    Cursor<DisplayLogicState> displayLogicCursor;
-
-    SparseArray<ToggleButton> tbtns = new SparseArray<>();
-    SparseArray<String> containers = new SparseArray<>();
-    SparseArray<String> uiStateArray = new SparseArray<>();
-
-    Subject<String> hostUIStateStream;
 
     @Override
     protected int layoutId() {
@@ -87,25 +72,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        hostUIStateStream = PublishSubject.<String>create().toSerialized();
         loadPlugins();
-
-        displayLogicActions = Actions.from(DisplayLogicActions.class);
-        displayLogicCursor = Cursors.map(store, state -> state.displayLogic());
-
-        containers.append(R.id.container_left, Constants.container_left);
-        containers.append(R.id.container_right, Constants.container_right);
-
-        tbtns.append(R.id.tbtn_1, tbtn1);
-        tbtns.append(R.id.tbtn_2, tbtn2);
-        tbtns.append(R.id.tbtn_3, tbtn3);
-        tbtns.append(R.id.tbtn_4, tbtn4);
-
-        uiStateArray.append(0, "");
-        uiStateArray.append(R.id.tbtn_1, "leftTop");
-        uiStateArray.append(R.id.tbtn_2, "leftButtom");
-        uiStateArray.append(R.id.tbtn_3, "rightTop");
-        uiStateArray.append(R.id.tbtn_4, "rightTop");
     }
 
     @Override
@@ -117,66 +84,25 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mCancelable = displayLogicCursor.subscribe(state -> {
-            changeMainState(state.selectId(), state.byUser());
-        });
-        store.dispatch(displayLogicActions.selectMainMenuItem(0, false));
-//        Bundle extras = getIntent().getExtras();
-//        if(extras != null) {
-//            String containerName = extras.getString("containerName");
-//            String componentName = extras.getString("componentName");
-//
-//            int containerId = 0;
-//            Timber.e("containerName is %s", containerName);
-//            Timber.e("componentName is %s", componentName);
-//            for (int i = 0; i < containers.size(); i++) {
-//                if (containers.valueAt(i).equals(containerName)) {
-//                    containerId = containers.keyAt(i);
-//                    break;
-//                }
-//            }
-//            if (!TextUtils.isEmpty(containerName) && !TextUtils.isEmpty(componentName) && containerId != 0) {
-//                Fragment fragment = Fragment.instantiate(this, componentName);
-//                if(!fragment.isAdded()) {
-//                    Fragment currentFragment = fragmentManager.findFragmentById(containerId);
-//                    fragmentManager.beginTransaction().add(containerId, fragment).hide(currentFragment).commit();
-//                }
-//            }
-//        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mCancelable.cancel();
     }
 
     @Override
     protected void onDestroy() {
         userPlugin.unload();
         counterPlugin.unload();
+        menuPlugin.unload();
         super.onDestroy();
     }
 
-    @OnClick({R.id.tbtn_1, R.id.tbtn_2, R.id.tbtn_3, R.id.tbtn_4})
-    void onClick(ToggleButton view) {
-        store.dispatch(displayLogicActions.selectMainMenuItem(view.getId(), true));
-    }
 
     private void loadPlugins() {
         userPlugin.load();
         counterPlugin.load();
+        menuPlugin.load();
     }
-
-    private void changeMainState(int selectId, boolean byUser) {
-        hostUIStateStream.onNext(uiStateArray.get(selectId));
-        for(int i = 0; i < tbtns.size(); i++) {
-            if(tbtns.keyAt(i) == selectId) {
-                tbtns.valueAt(i).setChecked(true);
-            } else {
-                tbtns.valueAt(i).setChecked(false);
-            }
-        }
-    }
-
 }

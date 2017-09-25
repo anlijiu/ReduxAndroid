@@ -1,13 +1,13 @@
-package com.example.reduxsample.modules.count.di;
+package com.example.reduxsample.modules.menu.di;
 
 import dagger.Subcomponent;
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerFragment;
 
 @Subcomponent(
-    modules = CounterModule.class
+    modules = MenuModule.class
 )
-public interface CounterComponent extends AndroidInjector<DaggerFragment> {
+public interface MenuComponent extends AndroidInjector<DaggerFragment> {
 
     @Subcomponent.Builder
     abstract class Builder extends AndroidInjector.Builder<DaggerFragment> {

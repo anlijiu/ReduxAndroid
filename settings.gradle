@@ -1,1 +1,1 @@
-include ':app', ':redux', ':redux-compiller', ':count', ':user', ':cloud', ':base'
+include ':app', ':redux', ':redux-compiller', ':menu', ':count', ':user', ':cloud', ':base'

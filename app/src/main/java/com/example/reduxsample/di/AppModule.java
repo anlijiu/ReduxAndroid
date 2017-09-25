@@ -29,9 +29,4 @@ public class AppModule {
         return application.getApplicationContext();
     }
 
-    @Provides
-    @Singleton
-    SampleApplication provideApplication(SampleApplication application) {
-        return application;
-    }
 }

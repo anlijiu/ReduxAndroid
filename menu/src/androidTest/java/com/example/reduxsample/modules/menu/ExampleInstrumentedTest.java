@@ -1,4 +1,4 @@
-package com.example.count;
+package com.example.reduxsample.modules.menu;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.count.test", appContext.getPackageName());
+        assertEquals("com.example.menu.test", appContext.getPackageName());
     }
 }

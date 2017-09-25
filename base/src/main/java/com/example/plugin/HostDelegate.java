@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public abstract class HostDelegate {
     private ArrayList<OnSelectMenuChangeListener> mOnSelectMenuChangeListeners;
-    protected @Menu int selectMenuItem;
+    protected @Menu int selectMenuItem = Menu.NONE;
 
     public void show(View view, @Position int position) {
         layout().show(view, position);

@@ -1,4 +1,4 @@
-package com.example.reduxsample.modules.count;
+package com.example.reduxsample.modules.menu;
 
 import com.yheriatovych.reductor.Action;
 import com.yheriatovych.reductor.annotations.ActionCreator;
@@ -7,18 +7,10 @@ import java.util.List;
 
 
 @ActionCreator
-public interface CounterActions {
-    String COUNTER__ADD= "COUNTER__ADD";
-    String COUNTER__MINUS= "COUNTER__MINUS";
-    String COUNTER__CAN_VALUE_FOR_TEST = "COUNTER__CAN_VALUE_FOR_TEST";
+public interface MenuActions {
+    String MENU__SELECT= "MENU__SELECT";
 
-    @ActionCreator.Action(COUNTER__ADD)
-    Action add(int id);
+    @ActionCreator.Action(MENU__SELECT)
+    Action select(int id, boolean byUser);
 
-    @ActionCreator.Action(COUNTER__MINUS)
-    Action minus(int id);
-
-
-    @ActionCreator.Action(COUNTER__CAN_VALUE_FOR_TEST)
-    Action updateCanValue(String value);
 }

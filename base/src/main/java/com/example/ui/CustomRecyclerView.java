@@ -55,16 +55,27 @@ public class CustomRecyclerView extends RecyclerView {
         firstFocusIn = true;
     }
 
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+        Timber.d("onLayout");
+    }
+
     private void focusOnSelectedItem() {
         if(firstFocusIn) {
             firstFocusIn = false;
             Adapter adapter = getAdapter();
             if(adapter instanceof BaseMvvmRecyclerViewAdapter) {
                 int selectedPosition = ((BaseMvvmRecyclerViewAdapter) adapter).getSelectPosition();
-                ViewHolder viewHolder = findViewHolderForAdapterPosition(selectedPosition);
-                if(viewHolder != null && viewHolder.itemView !=null) {
-                    viewHolder.itemView.requestFocus();
-                }
+                scrollToPosition(selectedPosition);
+
+                post(() -> {
+                    ViewHolder viewHolder = findViewHolderForAdapterPosition(selectedPosition);
+                    if(viewHolder != null && viewHolder.itemView !=null) {
+                        viewHolder.itemView.requestFocus();
+                    }
+                });
+
             }
         }
     }

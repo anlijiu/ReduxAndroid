@@ -1,4 +1,4 @@
-package com.example.reduxsample.modules.count.di;
+package com.example.reduxsample.modules.menu.di;
 
 import android.content.Context;
 
@@ -6,28 +6,28 @@ import com.example.di.scope.ScreenScope;
 import com.example.plugin.HostDelegate;
 import com.example.redux.middlewares.MainThreadMiddleware;
 import com.example.redux.reducers.UndoReducer;
-import com.example.reduxsample.modules.count.CounterPlugin;
-import com.example.reduxsample.modules.count.CounterReducer;
-import com.example.reduxsample.modules.count.CounterState;
+import com.example.reduxsample.modules.menu.MenuPlugin;
+import com.example.reduxsample.modules.menu.MenuReducer;
+import com.example.reduxsample.modules.menu.MenuState;
 import com.yheriatovych.reductor.Store;
 
 import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class CounterModule {
+public class MenuModule {
 
     @Provides
     @ScreenScope
-    CounterReducer provideCounterReducer() {
-        return CounterReducer.create();
+    MenuReducer provideMenuReducer() {
+        return MenuReducer.create();
     }
 
     @Provides
     @ScreenScope
-    Store<CounterState> provideStore(CounterReducer counterReducer) {
+    Store<MenuState> provideStore(MenuReducer menuerReducer) {
         final Store store = Store.create(
-                new UndoReducer<>(counterReducer),
+                new UndoReducer<>(menuerReducer),
                 MainThreadMiddleware.create()
         );
         return store;
@@ -35,7 +35,7 @@ public class CounterModule {
 
     @Provides
     @ScreenScope
-    CounterPlugin providesUserPlugin(@ScreenScope Context context, HostDelegate hostDelegate) {
-        return new CounterPlugin(context, hostDelegate);
+    MenuPlugin providesMenuPlugin(@ScreenScope Context context, HostDelegate hostDelegate) {
+        return new MenuPlugin(context, hostDelegate);
     }
 }

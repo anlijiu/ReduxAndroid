@@ -1,4 +1,4 @@
-package com.example.reduxsample.modules.count;
+package com.example.reduxsample.modules.menu;
 
 import android.app.Activity;
 import android.app.Application;
@@ -18,12 +18,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
-public class CounterPlugin implements Plugin, HostDelegate.OnSelectMenuChangeListener {
+public class MenuPlugin implements Plugin, HostDelegate.OnSelectMenuChangeListener {
 
     HostDelegate hostDelegate;
     Context context;
 
-    public CounterPlugin(@ScreenScope Context context, HostDelegate hostDelegate) {
+    public MenuPlugin(@ScreenScope Context context, HostDelegate hostDelegate) {
         this.hostDelegate = hostDelegate;
         this.context = context;
         hostDelegate.addOnMenuClickListener(this);
@@ -31,7 +31,10 @@ public class CounterPlugin implements Plugin, HostDelegate.OnSelectMenuChangeLis
 
     @Override
     public void load() {
-
+        Fragment leftMenuFragment = Fragment.instantiate(context, MenuLeftFragment.class.getName());
+        Fragment rightMenuFragment = Fragment.instantiate(context, MenuRightFragment.class.getName());
+        hostDelegate.show(leftMenuFragment, HostDelegate.Position.LEFT_MENU);
+        hostDelegate.show(rightMenuFragment, HostDelegate.Position.RIGHT_MENU);
     }
 
     @Override
@@ -41,11 +44,17 @@ public class CounterPlugin implements Plugin, HostDelegate.OnSelectMenuChangeLis
 
     @Override
     public void onSelectMenuChanged(@HostDelegate.Menu int menuItem) {
-        if(HostDelegate.Menu.LIGHT == menuItem) {
-            Fragment counterFragment = Fragment.instantiate(context, CounterFragment.class.getName());
-            Fragment justReadFragment = Fragment.instantiate(context, JustReadFragment.class.getName());
-            hostDelegate.show( counterFragment, HostDelegate.Position.B13_AREA);
-            hostDelegate.show(justReadFragment, HostDelegate.Position.APP_SHORTCUT_AREA);
-        }
+//        if(HostDelegate.Menu.LIGHT == menuItem) {
+//            Fragment menuerFragment = Fragment.instantiate(context, MenuLeftFragment.class.getName());
+//            Fragment justReadFragment = Fragment.instantiate(context, MenuRightFragment.class.getName());
+//            hostDelegate.show( menuerFragment, HostDelegate.Position.B13_AREA);
+//            hostDelegate.show(justReadFragment, HostDelegate.Position.APP_SHORTCUT_AREA);
+//        }
+    }
+
+    public void selectMenu(@HostDelegate.Menu int menuItem) {
+        hostDelegate.selectMenu(menuItem);
+        Timber.d("hostDelegate is %s", hostDelegate);
     }
 }
+

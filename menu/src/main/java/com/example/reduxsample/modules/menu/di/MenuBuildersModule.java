@@ -1,9 +1,9 @@
-package com.example.reduxsample.modules.count.di;
+package com.example.reduxsample.modules.menu.di;
 
 
 import com.example.di.scope.ScreenScope;
-import com.example.reduxsample.modules.count.CounterFragment;
-import com.example.reduxsample.modules.count.JustReadFragment;
+import com.example.reduxsample.modules.menu.MenuLeftFragment;
+import com.example.reduxsample.modules.menu.MenuRightFragment;
 
 import javax.inject.Singleton;
 
@@ -12,10 +12,10 @@ import dagger.android.ContributesAndroidInjector;
 
 
 @Module
-public abstract class CounterBuildersModule {
+public abstract class MenuBuildersModule {
     @ContributesAndroidInjector
-    abstract CounterFragment counterFramgentInjector();
+    abstract MenuLeftFragment leftFramgentInjector();
 
     @ContributesAndroidInjector
-    abstract JustReadFragment justReadFramgentInjector();
+    abstract MenuRightFragment rightFramgentInjector();
 }

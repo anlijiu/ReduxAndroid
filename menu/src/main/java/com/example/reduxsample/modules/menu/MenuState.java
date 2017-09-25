@@ -1,4 +1,4 @@
-package com.example.reduxsample.modules.count;
+package com.example.reduxsample.modules.menu;
 
 import android.os.Parcelable;
 
@@ -8,31 +8,31 @@ import java.util.List;
 
 
 @AutoValue
-public abstract class CounterState implements Parcelable {
-    public abstract int value();
-    public abstract String canValueForTest();
+public abstract class MenuState implements Parcelable {
+    public abstract int selectId();
+    public abstract boolean byUser();
 
 
     public abstract Builder toBuilder();
 
-    public static CounterState create(int value, String canValueForTest) {
+    public static MenuState create(int selectId, boolean byUser) {
         return builder()
-                .value(value)
-                .canValueForTest(canValueForTest)
+                .selectId(selectId)
+                .byUser(byUser)
                 .build();
     }
 
     public static Builder builder() {
-        return new AutoValue_CounterState.Builder();
+        return new AutoValue_MenuState.Builder();
     }
 
     @AutoValue.Builder
     public abstract static class Builder {
 
-        public abstract Builder value(int value);
+        public abstract Builder selectId(int selectId);
 
-        public abstract Builder canValueForTest(String canValueForTest);
+        public abstract Builder byUser(boolean byUser);
 
-        public abstract CounterState build();
+        public abstract MenuState build();
     }
 }

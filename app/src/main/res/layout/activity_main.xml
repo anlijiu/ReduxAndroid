@@ -7,24 +7,13 @@
     android:layout_height="match_parent"
     tools:context="com.example.reduxsample.MainActivity">
 
-    <LinearLayout
-        android:id="@+id/ll_left_container"
+    <FrameLayout
+        android:id="@+id/left_menu_container"
         android:layout_width="120dp"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <ToggleButton
-            android:id="@+id/tbtn_1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/bg_toggle_btn"/>
-        <ToggleButton
-            android:id="@+id/tbtn_2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/bg_toggle_btn"/>
-    </LinearLayout>
+
+    </FrameLayout>
 
     <View
         android:id="@+id/stub"
@@ -37,7 +26,7 @@
         android:id="@+id/container_left"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_toRightOf="@+id/ll_left_container"
+        android:layout_toRightOf="@+id/left_menu_container"
         android:layout_alignRight="@+id/stub">
 
     </FrameLayout>
@@ -47,28 +36,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignLeft="@+id/stub"
-        android:layout_toLeftOf="@+id/ll_right_container" >
+        android:layout_toLeftOf="@+id/right_menu_container" >
 
     </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_right_container"
+    <FrameLayout
+        android:id="@+id/right_menu_container"
         android:layout_width="120dp"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:orientation="vertical">
-        <ToggleButton
-            android:id="@+id/tbtn_3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/bg_toggle_btn"/>
-        <ToggleButton
-            android:id="@+id/tbtn_4"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/bg_toggle_btn"/>
-    </LinearLayout>
+    </FrameLayout>
 
 </RelativeLayout>
